@@ -1,0 +1,19 @@
+server:
+  port: 8081
+
+elasticsearch:
+  host: "localhost:9200"
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/edata
+    username: admin
+    password: handsoff
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: demo.elitedata.zmqconsumer.config.SnakeCaseNamingStrategy
+      
+logging:
+  level:
+    org.hibernate.SQL: OFF
