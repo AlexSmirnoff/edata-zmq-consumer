@@ -1,12 +1,9 @@
 server:
   port: 8081
 
-elasticsearch:
-  host: "localhost:9200"
-
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/edata
+    url: jdbc:postgresql://localhost:5432/ed
     username: admin
     password: handsoff
   jpa:

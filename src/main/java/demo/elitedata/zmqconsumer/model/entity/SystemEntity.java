@@ -14,9 +14,10 @@ import java.util.List;
 @Builder
 @Data
 @Entity
-@Table(name = "system", schema = "edata")
+@Table(name = "system", schema = "ed")
 public class SystemEntity {
     @Id
+    @Column(name = "systemName")
     private String name;
 
     private BigDecimal posX;

@@ -41,5 +41,6 @@ public interface EdMapper {
         return dto.getCommodities().stream().map(commodities -> toCommodity(commodities, dto.getSystemName(), dto.getStationName())).collect(Collectors.toList());
     }
 
+    @Mapping(target = "commodityName", expression = "java(dto.getCommodityName().toLowerCase())")
     Commodity toCommodity(CommodityDto dto, String systemName, String stationName);
 }

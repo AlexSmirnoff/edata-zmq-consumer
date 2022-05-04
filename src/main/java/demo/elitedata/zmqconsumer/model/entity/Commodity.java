@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Builder
 @Data
 @Entity
-@Table(name = "listing", schema = "edata")
+@Table(name = "listing", schema = "ed")
 @IdClass(CommodityId.class)
 public class Commodity {
     @Id

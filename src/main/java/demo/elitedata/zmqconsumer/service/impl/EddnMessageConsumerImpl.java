@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import demo.elitedata.zmqconsumer.enums.EddnSchema;
@@ -20,9 +19,7 @@ import demo.elitedata.zmqconsumer.model.entity.Station;
 import demo.elitedata.zmqconsumer.model.entity.SystemEntity;
 import demo.elitedata.zmqconsumer.model.entity.ids.StationId;
 import demo.elitedata.zmqconsumer.model.zmq.commodities.CommoditiesMessageBody;
-import demo.elitedata.zmqconsumer.model.zmq.commodities.CommoditiesZmqMessage;
 import demo.elitedata.zmqconsumer.model.zmq.journal.JournalMessageBody;
-import demo.elitedata.zmqconsumer.model.zmq.journal.JournalZmqMessage;
 import demo.elitedata.zmqconsumer.model.zmq.journal.location.LocationDto;
 import demo.elitedata.zmqconsumer.repository.StationRepository;
 import demo.elitedata.zmqconsumer.repository.SystemRepository;
@@ -40,7 +37,6 @@ public class EddnMessageConsumerImpl implements EddnMessageConsumer {
     private final EdMapper mapper;
     private final Map<String, String> unrecognizedMap = new HashMap<>();
 
-    @Async
     @Override
     public void consumeMessage(String message) {
         final var schema = EddnSchema.findSchemaByMessage(message);
