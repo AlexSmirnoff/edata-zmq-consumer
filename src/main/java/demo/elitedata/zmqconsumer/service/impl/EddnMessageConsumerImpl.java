@@ -20,7 +20,7 @@ import demo.elitedata.zmqconsumer.model.entity.SystemEntity;
 import demo.elitedata.zmqconsumer.model.entity.ids.StationId;
 import demo.elitedata.zmqconsumer.model.zmq.commodities.CommoditiesMessageBody;
 import demo.elitedata.zmqconsumer.model.zmq.journal.JournalMessageBody;
-import demo.elitedata.zmqconsumer.model.zmq.journal.location.LocationDto;
+import demo.elitedata.zmqconsumer.model.zmq.journal.location.LocationMessageBody;
 import demo.elitedata.zmqconsumer.repository.StationRepository;
 import demo.elitedata.zmqconsumer.repository.SystemRepository;
 import demo.elitedata.zmqconsumer.service.EddnMessageConsumer;
@@ -75,7 +75,7 @@ public class EddnMessageConsumerImpl implements EddnMessageConsumer {
     }
 
     private void saveStation(String stationMessage) throws JsonProcessingException {
-        var parsedMessage = objectMapper.readValue(getMessageBody(stationMessage), LocationDto.class);
+        var parsedMessage = objectMapper.readValue(getMessageBody(stationMessage), LocationMessageBody.class);
         if(StringUtils.equalsIgnoreCase("Station", parsedMessage.bodyType)) {
             var entity = stationRepository.findById(new StationId(parsedMessage.starSystem, parsedMessage.body)).orElse(new Station());
             stationRepository.save(mapper.toStation(parsedMessage, entity));

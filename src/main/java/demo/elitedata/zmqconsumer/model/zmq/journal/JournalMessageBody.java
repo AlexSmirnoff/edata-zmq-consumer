@@ -1,12 +1,12 @@
 package demo.elitedata.zmqconsumer.model.zmq.journal;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-
 import java.math.BigDecimal;
 import java.time.Instant;
+
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -16,10 +16,9 @@ public class JournalMessageBody {
     private Boolean horizons;
     private Boolean odyssey;
 
-    @JsonAlias("SystemName")
-    @JsonProperty("StarSystem")
+    @JsonAlias({"SystemName", "StarSystem"})
     private String systemName;
 
-    @JsonProperty("StarPos")
+    @JsonAlias("StarPos")
     private BigDecimal[] starPos;
 }

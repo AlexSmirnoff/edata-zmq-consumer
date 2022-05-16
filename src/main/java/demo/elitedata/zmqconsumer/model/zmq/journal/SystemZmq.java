@@ -14,14 +14,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SystemDto {
+public class SystemZmq {
     @JsonProperty("StarPos")
 	private BigDecimal[] starPos;
 
-    @JsonAlias("SystemName")
-    @JsonProperty("StarSystem")
+    @JsonAlias({"StarSystem", "SystemName"})
     private String systemName;
 
-    @JsonProperty("")
     private String stationName;
 }

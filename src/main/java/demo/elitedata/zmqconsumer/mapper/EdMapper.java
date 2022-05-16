@@ -14,9 +14,9 @@ import demo.elitedata.zmqconsumer.model.entity.Commodity;
 import demo.elitedata.zmqconsumer.model.entity.Station;
 import demo.elitedata.zmqconsumer.model.entity.SystemEntity;
 import demo.elitedata.zmqconsumer.model.zmq.commodities.CommoditiesMessageBody;
-import demo.elitedata.zmqconsumer.model.zmq.commodities.CommodityDto;
+import demo.elitedata.zmqconsumer.model.zmq.commodities.CommodityZmq;
 import demo.elitedata.zmqconsumer.model.zmq.journal.JournalMessageBody;
-import demo.elitedata.zmqconsumer.model.zmq.journal.location.LocationDto;
+import demo.elitedata.zmqconsumer.model.zmq.journal.location.LocationMessageBody;
 
 @Mapper(componentModel = "spring", imports = BigDecimal.class)
 public interface EdMapper {
@@ -31,7 +31,7 @@ public interface EdMapper {
     @Mapping(target = "systemName", source = "starSystem")
     @Mapping(target = "stationName", source = "body")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Station toStation(LocationDto dto, @MappingTarget Station entity);
+    Station toStation(LocationMessageBody dto, @MappingTarget Station entity);
 
     @Mapping(target = "commodities", expression = "java(toCommodityList(dto))")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -42,5 +42,5 @@ public interface EdMapper {
     }
 
     @Mapping(target = "commodityName", expression = "java(dto.getCommodityName().toLowerCase())")
-    Commodity toCommodity(CommodityDto dto, String systemName, String stationName);
+    Commodity toCommodity(CommodityZmq dto, String systemName, String stationName);
 }

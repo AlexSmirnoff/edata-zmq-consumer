@@ -3,31 +3,31 @@ package demo.elitedata.zmqconsumer.model.zmq.journal.location;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class LocationDto {
+public class LocationMessageBody {
 
-    @JsonProperty("Body")
+    @JsonAlias("Body")
     public String body;
-    @JsonProperty("BodyID")
+    @JsonAlias("BodyID")
     public Long bodyID;
-    @JsonProperty("BodyType")
+    @JsonAlias("BodyType")
     public String bodyType;
-    @JsonProperty("DistFromStarLS")
+    @JsonAlias("DistFromStarLS")
     public BigDecimal distFromStarLs;
-    @JsonProperty("StarPos")
+    @JsonAlias("StarPos")
     public BigDecimal[] starPos;
-    @JsonProperty("StarSystem")
+    @JsonAlias("StarSystem")
     public String starSystem;
-    @JsonProperty("StationName")
+    @JsonAlias("StationName")
     public String stationName;
-    @JsonProperty("StationType")
+    @JsonAlias("StationType")
     public String stationType;
-    @JsonProperty("event")
+    @JsonAlias("event")
     public String event;
 }
