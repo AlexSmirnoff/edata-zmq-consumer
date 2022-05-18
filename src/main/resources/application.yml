@@ -1,16 +1,9 @@
 server:
   port: 8081
-
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/ed
-    username: admin
-    password: handsoff
-  jpa:
-    hibernate:
-      naming:
-        physical-strategy: demo.elitedata.zmqconsumer.config.SnakeCaseNamingStrategy
       
 logging:
   level:
     org.hibernate.SQL: OFF
+
+db-access:
+  url: http://localhost:8082

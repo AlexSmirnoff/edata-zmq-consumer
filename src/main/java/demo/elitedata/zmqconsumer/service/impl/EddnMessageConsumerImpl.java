@@ -13,16 +13,12 @@ import com.jayway.jsonpath.JsonPath;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import demo.elitedata.zmqconsumer.client.DbAccessClient;
 import demo.elitedata.zmqconsumer.enums.EddnSchema;
 import demo.elitedata.zmqconsumer.mapper.EdMapper;
-import demo.elitedata.zmqconsumer.model.entity.Station;
-import demo.elitedata.zmqconsumer.model.entity.SystemEntity;
-import demo.elitedata.zmqconsumer.model.entity.ids.StationId;
 import demo.elitedata.zmqconsumer.model.zmq.commodities.CommoditiesMessageBody;
 import demo.elitedata.zmqconsumer.model.zmq.journal.JournalMessageBody;
 import demo.elitedata.zmqconsumer.model.zmq.journal.location.LocationMessageBody;
-import demo.elitedata.zmqconsumer.repository.StationRepository;
-import demo.elitedata.zmqconsumer.repository.SystemRepository;
 import demo.elitedata.zmqconsumer.service.EddnMessageConsumer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class EddnMessageConsumerImpl implements EddnMessageConsumer {
     private final ObjectMapper objectMapper;
-    private final SystemRepository systemRepository;
-    private final StationRepository stationRepository;
+    private final DbAccessClient dbAccessClient;
     private final EdMapper mapper;
     private final Map<String, String> unrecognizedMap = new HashMap<>();
 
@@ -70,22 +65,19 @@ public class EddnMessageConsumerImpl implements EddnMessageConsumer {
 
     private void saveCommodities(String commoditiesMessage) throws JsonProcessingException {
         var parsedMessage = objectMapper.readValue(getMessageBody(commoditiesMessage), CommoditiesMessageBody.class);
-        var entity = stationRepository.findById(new StationId(parsedMessage.getSystemName(), parsedMessage.getStationName())).orElse(new Station());
-        stationRepository.save(mapper.toStation(parsedMessage, entity));
+        dbAccessClient.postStation(mapper.toStation(parsedMessage));
     }
 
     private void saveStation(String stationMessage) throws JsonProcessingException {
         var parsedMessage = objectMapper.readValue(getMessageBody(stationMessage), LocationMessageBody.class);
-        if(StringUtils.equalsIgnoreCase("Station", parsedMessage.bodyType)) {
-            var entity = stationRepository.findById(new StationId(parsedMessage.starSystem, parsedMessage.body)).orElse(new Station());
-            stationRepository.save(mapper.toStation(parsedMessage, entity));
+        if(StringUtils.equalsIgnoreCase("Station", parsedMessage.getBodyType())) {
+            dbAccessClient.postStation(mapper.toStation(parsedMessage));
         }
     }
 
     private void saveSystem(String systemMessage) throws JsonProcessingException {
         var parsedMessage = objectMapper.readValue(getMessageBody(systemMessage), JournalMessageBody.class); 
-        var entity = systemRepository.findById(parsedMessage.getSystemName()).orElse(new SystemEntity());
-        systemRepository.save(mapper.toSystem(parsedMessage, entity));
+        dbAccessClient.postSystem(mapper.toSystem(parsedMessage));
     }
 
     private void logUnrecognizedMessage(String message) {

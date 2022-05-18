@@ -22,19 +22,28 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch:2.6.4'
-	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.4'
-	implementation "org.springframework.integration:spring-integration-zeromq:5.5.10"
-	implementation 'com.jayway.jsonpath:json-path:2.7.0'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.postgresql:postgresql:42.3.3'
-	compileOnly 'org.projectlombok:lombok:1.18.22'
-	implementation 'org.apache.commons:commons-lang3:3.12.0'
-	annotationProcessor 'org.projectlombok:lombok:1.18.22'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.4'
-	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+	implementation (
+		'org.springframework.boot:spring-boot-starter-data-elasticsearch:2.6.4',
+	 	'org.springframework.boot:spring-boot-starter-web:2.6.4',
+	 	"org.springframework.integration:spring-integration-zeromq:5.5.10",
+	 	'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.2',
+		'com.jayway.jsonpath:json-path:2.7.0',
+		'org.apache.commons:commons-lang3:3.12.0',
+		'org.mapstruct:mapstruct:1.4.2.Final'
+	)
+	compileOnly (
+		'org.projectlombok:lombok:1.18.22'
+	)
+	annotationProcessor (
+		'org.projectlombok:lombok:1.18.22',
+		'org.mapstruct:mapstruct-processor:1.4.2.Final'
+	)
+	testImplementation (
+		'org.springframework.boot:spring-boot-starter-test:2.6.4'
+	)
 }
+
+sourceSets.main.java.srcDirs += ["build/generated/sources/annotationProcessor/java/main"]
 
 tasks.named('test') {
 	useJUnitPlatform()

@@ -4,15 +4,12 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
 
-import demo.elitedata.zmqconsumer.model.entity.Commodity;
-import demo.elitedata.zmqconsumer.model.entity.Station;
-import demo.elitedata.zmqconsumer.model.entity.SystemEntity;
+import demo.elitedata.zmqconsumer.model.dto.Commodity;
+import demo.elitedata.zmqconsumer.model.dto.Station;
+import demo.elitedata.zmqconsumer.model.dto.SystemEntity;
 import demo.elitedata.zmqconsumer.model.zmq.commodities.CommoditiesMessageBody;
 import demo.elitedata.zmqconsumer.model.zmq.commodities.CommodityZmq;
 import demo.elitedata.zmqconsumer.model.zmq.journal.JournalMessageBody;
@@ -20,22 +17,18 @@ import demo.elitedata.zmqconsumer.model.zmq.journal.location.LocationMessageBody
 
 @Mapper(componentModel = "spring", imports = BigDecimal.class)
 public interface EdMapper {
-    
     @Mapping(target = "posX", expression = "java(dto.getStarPos()[0])")
     @Mapping(target = "posY", expression = "java(dto.getStarPos()[1])")
     @Mapping(target = "posZ", expression = "java(dto.getStarPos()[2])")
     @Mapping(target = "name", source = "systemName")
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    SystemEntity toSystem(JournalMessageBody dto, @MappingTarget SystemEntity entity);
+    SystemEntity toSystem(JournalMessageBody dto);
 
     @Mapping(target = "systemName", source = "starSystem")
     @Mapping(target = "stationName", source = "body")
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Station toStation(LocationMessageBody dto, @MappingTarget Station entity);
+    Station toStation(LocationMessageBody dto);
 
     @Mapping(target = "commodities", expression = "java(toCommodityList(dto))")
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Station toStation(CommoditiesMessageBody dto, @MappingTarget Station entity);
+    Station toStation(CommoditiesMessageBody dto);
 
     default List<Commodity> toCommodityList(CommoditiesMessageBody dto) {
         return dto.getCommodities().stream().map(commodities -> toCommodity(commodities, dto.getSystemName(), dto.getStationName())).collect(Collectors.toList());

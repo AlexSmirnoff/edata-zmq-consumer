@@ -1,30 +1,23 @@
-package demo.elitedata.zmqconsumer.model.entity;
+package demo.elitedata.zmqconsumer.model.dto;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-@Entity
-@Table(name = "system", schema = "ed")
 public class SystemEntity {
-    @Id
-    @Column(name = "systemName")
     private String name;
 
     private BigDecimal posX;
     private BigDecimal posY;
     private BigDecimal posZ;
 
-    @OneToMany
-    @JoinColumn(name = "systemName", insertable = false, updatable = false)
     private List<Station> stations;
 }
